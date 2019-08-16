@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(
-		basePackages = "com.example.batch_datasource.repository.testdb2",
+		basePackages = "com.example.batch_datasource.repository.testdb2",// 数据层所在的包位置
 		entityManagerFactoryRef = "entityManagerFactory2",
 		transactionManagerRef = "transactionManager2"
 		)

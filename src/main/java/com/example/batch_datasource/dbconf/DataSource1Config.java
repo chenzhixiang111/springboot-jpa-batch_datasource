@@ -1,5 +1,8 @@
 package com.example.batch_datasource.dbconf;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -28,6 +32,9 @@ public class DataSource1Config {
 	@Autowired
     private JpaProperties jpaProperties;
 	
+	@Autowired
+	private Environment environment;
+	
 	//创建test1数据库的数据源
 	@Bean(name = "test1DataSource")
 	@Primary
@@ -42,6 +49,13 @@ public class DataSource1Config {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory1(@Qualifier("test1DataSource") DataSource dataSource, 
 			EntityManagerFactoryBuilder  builder)
 			throws Exception {
+		/*
+		 * 多数据源环境下，有可能application.properties中的hibernate.hbm2ddl.auto不生效，如果不生效我们自行在配置类中加上去
+		 */
+//		Map<String, Object> properties = new HashMap<>(4);
+//		properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL55Dialect");
+//		properties.put("hibernate.hbm2ddl.auto", environment.getProperty("spring.jpa.hibernate.ddl-auto"));
+//		System.out.println(jpaProperties.getProperties());
 		return builder
 				.dataSource(dataSource)
 				.properties(jpaProperties.getProperties())
